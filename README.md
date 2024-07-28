@@ -1,5 +1,7 @@
-Nuget client
+Nuget Client
 ============
+[![Go Reference](https://pkg.go.dev/badge/github.com/gdwr/nuget.svg)](https://pkg.go.dev/github.com/gdwr/nuget)
+[![Workflows](https://github.com/GDWR/nuget/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/GDWR/nuget/actions/workflows/pre-commit.yml)
 
 A [nuget](https://www.nuget.org/) client for golang. See [examples](./examples/) to see how it can be used.
 
