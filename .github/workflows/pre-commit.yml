@@ -1,0 +1,22 @@
+name: pre-commit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+env:
+  NIX_PATH: nixpkgs=channel:nixos-unstable
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Nix
+      uses: cachix/install-nix-action@v18
+      with:
+        extra_nix_config: |
+          access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+    - name: Run pre-commit
+      run: nix-shell --run "pre-commit run --show-diff-on-failure --color=always"
