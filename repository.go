@@ -3,7 +3,6 @@ package nuget
 import (
 	"errors"
 	"net/http"
-	"time"
 )
 
 const serviceIndexUrl = "https://api.nuget.org/v3/index.json"
@@ -45,7 +44,7 @@ func (r *NugetRepository) GetCatalog(cursor Cursor) (*NugetCatalog, error) {
 	}, nil
 }
 
-func NewCatalog(h *http.Client, cursor time.Time) (*NugetCatalog, error) {
+func NewCatalog(h *http.Client, cursor Cursor) (*NugetCatalog, error) {
 	r, err := NewRepository(h)
 	if err != nil {
 		return nil, err
