@@ -23,17 +23,13 @@ func main() {
 	println("Polling for updates...")
 
 	for {
-		// Retrieve all the leaves, which you can consider as events to nuget, since our last check (cursor).
-		leaves, err := nugetCatalog.Leaves()
-		handleErr(err)
+		// Process our leaves, in this case printing them out.
+		for leaf := range nugetCatalog.StreamLeaves() {
+			fmt.Printf("Event=%v Url=%s\n", leaf.Type, leaf.Id)
+		}
 
 		// Update the cursor to the current time, so we only get new events next time.
 		nugetCatalog.Cursor = time.Now().UTC()
-
-		// Process our leaves, in this case printing them out.
-		for _, leaf := range leaves {
-			fmt.Printf("Event=%v Url=%s\n", leaf.Type, leaf.Id)
-		}
 
 		time.Sleep(PollInterval)
 	}

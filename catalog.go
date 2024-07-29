@@ -66,3 +66,36 @@ func (c *NugetCatalog) Leaves() ([]CatalogItem, error) {
 
 	return leaves, nil
 }
+
+func (c *NugetCatalog) StreamLeaves() <-chan CatalogItem {
+	ch := make(chan CatalogItem)
+
+	go func() {
+		defer close(ch)
+
+		pages, err := c.Pages()
+		if err != nil {
+			return
+		}
+
+		for _, page := range pages {
+			page, err := getJson[Catalog](page.Id, c.httpClient)
+			if err != nil {
+				return
+			}
+
+			for _, item := range page.Items {
+				timestamp, err := time.Parse(TimestampFormat, item.CommitTimestamp)
+				if err != nil {
+					return
+				}
+
+				if timestamp.After(c.Cursor) {
+					ch <- item
+				}
+			}
+		}
+	}()
+
+	return ch
+}
