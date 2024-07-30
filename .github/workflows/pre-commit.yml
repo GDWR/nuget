@@ -15,10 +15,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install Nix
-      uses: cachix/install-nix-action@v18
-      with:
-        extra_nix_config: |
-          access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      uses: nixbuild/nix-quick-install-action@v28
 
     - name: Cache nix store
       uses: nix-community/cache-nix-action@v5
