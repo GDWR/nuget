@@ -21,11 +21,10 @@ jobs:
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
     - name: Cache nix store
-      id: cache-nix-store
-      uses: actions/cache@v4
+      uses: nix-community/cache-nix-action@v5
       with:
-        path: /nix/store
-        key: ${{ runner.os }}-nix-shell-${{ env.NIX_PATH }}-${{ hashFiles('**/shell.nix') }}
+        primary-key: nix-${{ runner.os }}-${{ env.NIX_PATH }}-${{ hashFiles('**/*.nix') }}
+        restore-prefixes-first-match: nix-${{ runner.os }}-
 
     - name: Run pre-commit
       run: nix-shell --run "pre-commit run --all-files --show-diff-on-failure --color=always"
