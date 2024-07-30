@@ -25,7 +25,7 @@ func main() {
 	for {
 		// Process our leaves, in this case printing them out.
 		for leaf := range nugetCatalog.StreamLeaves() {
-			fmt.Printf("Event=%v Url=%s\n", leaf.Type, leaf.Id)
+			fmt.Printf("%s version=%s created=%s\n", leaf.PackageId, leaf.Version, leaf.Created)
 		}
 
 		// Update the cursor to the current time, so we only get new events next time.

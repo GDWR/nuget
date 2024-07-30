@@ -67,8 +67,8 @@ func (c *NugetCatalog) Leaves() ([]CatalogItem, error) {
 	return leaves, nil
 }
 
-func (c *NugetCatalog) StreamLeaves() <-chan CatalogItem {
-	ch := make(chan CatalogItem)
+func (c *NugetCatalog) StreamLeaves() <-chan CatalogLeaf {
+	ch := make(chan CatalogLeaf)
 
 	go func() {
 		defer close(ch)
@@ -91,7 +91,12 @@ func (c *NugetCatalog) StreamLeaves() <-chan CatalogItem {
 				}
 
 				if timestamp.After(c.Cursor) {
-					ch <- item
+					leaf, err := getJson[CatalogLeaf](item.Id, c.httpClient)
+					if err != nil {
+						return
+					}
+
+					ch <- *leaf
 				}
 			}
 		}

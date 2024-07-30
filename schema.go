@@ -1,6 +1,9 @@
 package nuget
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
 
 const TimestampFormat = time.RFC3339Nano
 
@@ -31,4 +34,30 @@ type CatalogItem struct {
 	CommitId        string `json:"commitId"`
 	CommitTimestamp string `json:"commitTimeStamp"`
 	Count           int    `json:"count"`
+}
+
+type CatalogLeaf struct {
+	Id                       string          `json:"@id"`
+	Type                     []string        `json:"@type"`
+	Authors                  string          `json:"authors"`
+	CatalogCommitId          string          `json:"catalog:commitId"`
+	CatalogCommitTimeStamp   string          `json:"catalog:commitTimeStamp"`
+	Copyright                string          `json:"copyright"`
+	Created                  string          `json:"created"`
+	Description              string          `json:"description"`
+	IconUrl                  string          `json:"iconUrl"`
+	PackageId                string          `json:"id"`
+	IsPrerelease             bool            `json:"isPrerelease"`
+	LastEdited               string          `json:"lastEdited"`
+	Listed                   bool            `json:"listed"`
+	PackageHash              string          `json:"packageHash"`
+	PackageHashAlgorithm     string          `json:"packageHashAlgorithm"`
+	PackageSize              int             `json:"packageSize"`
+	ProjectUrl               string          `json:"projectUrl"`
+	Published                string          `json:"published"`
+	RequireLicenseAcceptance bool            `json:"requireLicenseAcceptance"`
+	VerbatimVersion          string          `json:"verbatimVersion"`
+	Version                  string          `json:"version"`
+	DependencyGroups         json.RawMessage `json:"dependencyGroups"`
+	PackageEntries           json.RawMessage `json:"packageEntries"`
 }
